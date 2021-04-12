@@ -15,7 +15,7 @@ function getPizza() {
   const pizzaId = searchParams.get('id');
 
   // get pizza info
-  fetch('/api/pizza/${pizzaId}')  
+  fetch(`/api/pizzas/${pizzaId}`)  
     .then(res => { 
       if (!res.ok) {
         throw new Error({ message: 'Something went wrong!' });
