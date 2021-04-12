@@ -12,8 +12,8 @@ const pizzaController = {
   },
 
   // get one pizza by id
-  getPizzaById({ parmas }, res) {
-    Pizza.findOne({ _id: parmas.id })
+  getPizzaById({ params }, res) {
+    Pizza.findOne({ _id: params.id })
       .then(dbPizzaData => {
         if (!dbPizzaData) {
           return res.status(404).json({ message: 'No pizza found with this id!'});
