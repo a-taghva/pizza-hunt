@@ -1,4 +1,4 @@
-const { Schmea, model } = require('mongoose');
+const { Schema, model } = require('mongoose');
 
 const PizzaSchema = new Schema({
   pizzaName: {
