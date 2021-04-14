@@ -60,17 +60,22 @@ const commentController = {
       .catch(err => res.json(err));
   },
 
-  removeReply({ parmas }, res) {
-    Comment.findOneAndDelete({ _id: params.commentId })
-      .then(deletedReply => {
-        if (!deletedReply) {
-          return res.status(404).json({ message: 'No reply found with this id!' });
+  removeReply({ params }, res) {
+    Comment.findOneAndUpdate(
+      { _id: params.commentId },
+      { $pull: { replies: { replyId: params.replyId } } },
+      { new: true }
+    )
+      .then(dbCommentData => {
+        if (!dbCommentData) {
+          return res.status(404).json({ message: 'No coment found with this id!' });
         }
 
-        res.json(deletedReply);
+        res.json(dbCommentData);
       })
       .catch(err => res.json(err));
-  }
+  },
+
 }
 
 module.exports = commentController;
