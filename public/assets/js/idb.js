@@ -26,3 +26,12 @@ request.onsuccess = function(e) {
 request.onerror = function(e) {
   console.log(e.target.errorCode);
 };
+
+function saveRecord(record) {
+  // open a new transaction with read and write permission
+  const transaction = db.transaction(['new_pizza'], 'readwrite');
+
+  const pizzaObjectStore = transaction.objectStore('new_pizza');
+
+  pizzaObjectStore.add(record);
+}  

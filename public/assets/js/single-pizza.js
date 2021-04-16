@@ -168,7 +168,10 @@ function handleNewReplySubmit(event) {
       console.log(commentResponse);
       location.reload();
     })
-    .catch(err => console.log(err));
+    .catch(err => {
+      console.log(err);
+      saveRecord(formData);
+    });
 }
 
 $backBtn.addEventListener('click', function() {
