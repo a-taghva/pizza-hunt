@@ -8,7 +8,7 @@ request.onupgradeneeded = function(e) {
   // save reference to the database
   const db = e.target.result;
   // create an object store (table) called 'new_pizza', set it to have and auto incrementing primary key of sorts
-  db.createObjectStore('new_pizza', { autoIncrement: ture })
+  db.createObjectStore('new_pizza', { autoIncrement: true })
 };
 
 // finalize the connection to the database
