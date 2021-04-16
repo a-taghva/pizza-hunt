@@ -19,7 +19,7 @@ request.onsuccess = function(e) {
   // send all local db data to api
   // **** navigator.onLine returns boolean indicating whether the browser is working online.
   if (navigator.onLine) {
-    // uploadPizza();
+    uploadPizza();
   }
 };
 
@@ -35,3 +35,41 @@ function saveRecord(record) {
 
   pizzaObjectStore.add(record);
 }  
+
+function uploadPizza() {
+  // open transaction
+  const transaction = db.transaction(["new_pizza"], 'readwrite');
+
+  const pizzaObjectStore = transaction.objectStore("new_pizza");
+
+  const getAll = pizzaObjectStore.getAll();
+
+  getAll.onsuccess = function() {
+    if (getAll.result.length > 0) {
+      fetch('api/pizzas', {
+        method: "POST",
+        body: JSON.stringify(getAll.result),
+        headers: {
+          Accept: 'application/json, text/plain, */*', 
+          'Content-Type': 'application/json'
+        }
+      })
+        .then(res => res.json())
+        .then(serverResponse => {
+          if (serverResponse.message) {
+            throw new Error(serverResponse);
+          }
+
+          // open more transaction
+          const transaction = db.transaction(["new_pizza"], 'readwrite');
+          const pizzaObjectStore = transaction.objectStore('new_pizza');
+          pizzaObjectStore.clear();
+
+          alert('All saved pizza has been submitted!');
+        })
+        .catch(console.log);
+    }
+  }
+}
+
+window.addEventListener('online', uploadPizza);
